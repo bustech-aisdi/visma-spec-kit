@@ -1,0 +1,20 @@
+theme: jekyll-theme-minimal
+title: "Visma Specifications Kit"
+description: "Specifications and guidelines for Visma teams"
+
+markdown: kramdown
+highlighter: rouge
+
+plugins:
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+
+relative_links:
+  enabled: true
+  collections: true
+
+include:
+  - README.md
+
+exclude:
+  - .claude/

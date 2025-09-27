@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visma's Federated AI Platform - Slideshow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+        .slide-content {
+             /* Adjusted max-width for better centering */
+             @apply w-full max-w-5xl mx-auto px-8 py-10;
+        }
+        .prose-slides {
+            @apply prose prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-800 prose-a:text-blue-600 hover:prose-a:text-blue-800 prose-strong:font-semibold prose-p:text-slate-600 prose-li:text-slate-600;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 flex flex-col h-screen overflow-hidden">
+
+    <!-- Slide Container -->
+    <main id="slides-container" class="flex-grow flex items-center justify-center">
+        <!-- Slides will be injected here by JS -->
+    </main>
+
+    <!-- Navigation Controls -->
+    <footer class="flex-shrink-0 bg-white/80 backdrop-blur-sm border-t border-slate-200 p-4">
+        <div class="max-w-5xl mx-auto flex items-center justify-between">
+            <div class="text-sm font-medium text-slate-600">
+                Visma's Federated AI Platform
+            </div>
+            <div class="flex items-center gap-4">
+                <button id="prevBtn" class="p-2 rounded-full hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                    <i data-lucide="arrow-left" class="w-5 h-5 text-slate-700"></i>
+                </button>
+                <span id="slideCounter" class="text-sm font-semibold text-slate-700 w-16 text-center"></span>
+                <button id="nextBtn" class="p-2 rounded-full hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                    <i data-lucide="arrow-right" class="w-5 h-5 text-slate-700"></i>
+                </button>
+            </div>
+             <div class="w-36 text-right">
+                <!-- Spacer -->
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    const slideData = [
+        { // Slide 1: Title
+            content: `
+                <div class="text-center">
+                    <h1 class="text-5xl font-extrabold tracking-tight text-slate-900 !mb-4">Visma's Federated AI Platform</h1>
+                    <p class="text-2xl text-slate-500">A Plan for Secure and Scalable AI Across Visma</p>
+                </div>
+            `
+        },
+        { // Slide 2: Hook (Reverted)
+            title: "The Challenge: Balancing Freedom with Control",
+            content: `
+                <div class="text-center max-w-3xl mx-auto">
+                    <p class="text-2xl leading-relaxed text-slate-700">How do we empower <strong>200+ companies</strong> to innovate with AI...</p>
+                    <p class="text-2xl leading-relaxed text-slate-700 mt-4">...while ensuring security, managing costs, and avoiding chaos?</p>
+                    <div class="mt-12 p-4 bg-emerald-100/60 border border-emerald-300/50 rounded-lg">
+                        <p class="text-2xl font-semibold text-emerald-800">We need a framework that provides <strong>both autonomy and governance.</strong></p>
+                    </div>
+                </div>
+            `
+        },
+        { // Slide 3: Architecture Intro
+            title: "How It Works: The High-Level View",
+            content: `
+                <div class="text-center">
+                     <p class="text-xl">We're using a 'best of both worlds' approach on Google Cloud, combining a central hub with individual company spaces.</p>
+                     <div class="flex justify-center items-center gap-12 mt-12">
+                        <div class="p-6 rounded-xl bg-slate-200/60 text-center">
+                            <i data-lucide="server" class="w-12 h-12 text-slate-600 mx-auto mb-2"></i>
+                            <h3 class="text-lg font-bold">A Central Platform</h3>
+                            <p class="text-sm">For Shared Tools & Governance</p>
+                        </div>
+                        <div class="text-4xl font-light text-slate-400">+</div>
+                        <div class="p-6 rounded-xl bg-blue-100/60 text-center">
+                            <i data-lucide="box" class="w-12 h-12 text-blue-600 mx-auto mb-2"></i>
+                            <h3 class="text-lg font-bold text-blue-900">Private Company Spaces</h3>
+                             <p class="text-sm text-blue-800">For Building & Data</p>
+                        </div>
+                     </div>
+                </div>
+            `
+        },
+        { // Slide 4: Architecture Diagram
+            isFullPage: true,
+            content: `
+                <div class="w-full h-full flex flex-col items-center justify-center p-4 bg-slate-100">
+                    <h2 class="!text-3xl !mb-4 text-slate-800 font-bold tracking-tight text-center flex-shrink-0">Architectural Blueprint</h2>
+                    <div class="w-full flex-grow flex items-center justify-center">
+                        <svg width="95%" height="95%" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+                            <defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" fill="#475569"><polygon points="0 0, 10 3.5, 0 7"/></marker></defs>
+
+                            <!-- BORDERS AND LABELS -->
+                            <rect x="1" y="1" width="1198" height="598" rx="15" fill="none" stroke="#cbd5e1" stroke-width="2"/>
+                            <path d="M600 1 V 599" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 8"/>
+                            <text x="300" y="35" font-family="Inter, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#1e293b">BUILD & PUBLISH</text>
+                            <text x="900" y="35" font-family="Inter, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#1e293b">DISCOVER & CONSUME</text>
+
+                            <!-- LEFT SIDE: BUILD -->
+                            <g id="developers">
+                                <rect x="50" y="80" width="200" height="80" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+                                <text x="150" y="110" font-family="Inter, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#1e293b">Developers</text>
+                                <text x="150" y="135" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#475569">(Contributors)</text>
+                            </g>
+                            <g id="company-a-project">
+                                <rect x="300" y="80" width="250" height="180" rx="10" fill="#f0f9ff" stroke="#7dd3fc" stroke-width="2"/>
+                                <text x="425" y="105" font-family="Inter, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#0c4a6e">Company A: Private Project</text>
+                                <rect x="325" y="130" width="200" height="40" rx="5" fill="#e0f2fe"/><text x="425" y="155" text-anchor="middle" font-size="12">CI/CD Pipeline</text>
+                                <rect x="325" y="180" width="200" height="40" rx="5" fill="#e0f2fe"/><text x="425" y="205" text-anchor="middle" font-size="12">Agent on Cloud Run</text>
+                                <rect x="325" y="230" width="200" height="40" rx="5" fill="#e0f2fe"/><text x="425" y="255" text-anchor="middle" font-size="12">Data / Vector Search</text>
+                            </g>
+                            <path d="M250 120 H 300" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <text x="275" y="115" font-size="10">Develops</text>
+
+                            <!-- CENTRAL PLATFORM -->
+                            <g id="central-platform">
+                                <rect x="300" y="300" width="600" height="250" rx="10" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                                <text x="600" y="325" font-family="Inter, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#1e293b">Visma Central Platform</text>
+                                <rect x="325" y="350" width="250" height="180" rx="5" fill="#f1f5f9"/><text x="450" y="370" font-weight="bold" text-anchor="middle">Agent Registry & Gallery</text>
+                                <rect x="625" y="350" width="250" height="180" rx="5" fill="#f1f5f9"/><text x="750" y="370" font-weight="bold" text-anchor="middle">Governance & Services</text>
+                                <text x="450" y="400" font-size="12" text-anchor="middle">Discoverable Agents</text>
+                                <text x="450" y="420" font-size="12" text-anchor="middle">Metadata, Versions, Ratings</text>
+                                <text x="750" y="400" font-size="12" text-anchor="middle">IAM & SSO</text>
+                                <text x="750" y="420" font-size="12" text-anchor="middle">Cost Management / Credits</text>
+                                <text x="750" y="440" font-size="12" text-anchor="middle">Vertex AI Proxy</text>
+                            </g>
+                            <path d="M425 260 V 300" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <text x="430" y="285" font-size="10">Registers Agent</text>
+
+                            <!-- RIGHT SIDE: CONSUME -->
+                             <g id="consumers">
+                                <rect x="950" y="80" width="200" height="80" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+                                <text x="1050" y="110" font-family="Inter, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#1e293b">Consumers</text>
+                                <text x="1050" y="135" font-family="Inter, sans-serif" font-size="12" text-anchor="middle" fill="#475569">(Users & Applications)</text>
+                            </g>
+                            <g id="apigee">
+                                <rect x="650" y="180" width="200" height="60" rx="30" fill="#f0f9ff" stroke="#7dd3fc" stroke-width="2"/>
+                                <text x="750" y="215" font-family="Inter, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#0c4a6e">API Gateway (Apigee X)</text>
+                            </g>
+                            <path d="M950 120 H 550 H 450 V 350 " stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)" stroke-dasharray="4 4" fill="none"/>
+                            <text x="700" y="115" font-size="10">Discover in Gallery</text>
+
+                            <path d="M950 180 H 850" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <text x="880" y="175" font-size="10">1. Request</text>
+
+                            <path d="M650 210 H 550" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <text x="580" y="205" font-size="10">2. Route to Agent</text>
+
+                        </svg>
+                    </div>
+                </div>
+            `
+        },
+        { // Slide 5: GCP Tools
+            title: "Our Blueprint on Google Cloud",
+            isFullPage: true,
+            content: `
+                 <div class="w-full h-full flex flex-col items-center justify-center p-4 bg-slate-100">
+                    <h2 class="!text-3xl !mb-4 text-slate-800 font-bold tracking-tight text-center flex-shrink-0">Mapping Our Architecture to GCP Services</h2>
+                    <div class="w-full flex-grow flex items-center justify-center">
+                        <svg width="95%" height="95%" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+                            <style>.service-text{font-family:Inter,sans-serif;font-size:12px;fill:#334155}.service-title{font-weight:bold;font-size:14px;fill:#0f172a}.area-title{font-size:18px;font-weight:bold;fill:#1e293b}</style>
+                            <rect x="1" y="1" width="1198" height="598" rx="15" fill="none" stroke="#94a3b8" stroke-width="1"/>
+
+                            <!-- Central Platform Area -->
+                            <rect x="300" y="20" width="600" height="250" rx="10" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+                            <text x="600" y="50" class="area-title" text-anchor="middle">CENTRAL PLATFORM</text>
+                            <g>
+                                <rect x="325" y="80" width="180" height="160" rx="5" fill="#f1f5f9"/>
+                                <text x="415" y="100" class="service-title" text-anchor="middle">API Management</text>
+                                <text x="415" y="130" class="service-text" text-anchor="middle">Apigee X</text>
+                                <text x="415" y="180" class="service-title" text-anchor="middle">Identity</text>
+                                <text x="415" y="210" class="service-text" text-anchor="middle">Cloud IAM</text>
+                            </g>
+                            <g>
+                                <rect x="510" y="80" width="180" height="160" rx="5" fill="#f1f5f9"/>
+                                <text x="600" y="100" class="service-title" text-anchor="middle">AI Foundation Models</text>
+                                <text x="600" y="130" class="service-text" text-anchor="middle">Vertex AI</text>
+                                <text x="600" y="145" class="service-text" text-anchor="middle">(Gemini, PaLM)</text>
+                                <text x="600" y="180" class="service-title" text-anchor="middle">Monitoring</text>
+                                <text x="600" y="210" class="service-text" text-anchor="middle">Cloud Monitoring</text>
+                            </g>
+                             <g>
+                                <rect x="695" y="80" width="180" height="160" rx="5" fill="#f1f5f9"/>
+                                <text x="785" y="100" class="service-title" text-anchor="middle">Agent Tools</text>
+                                <text x="785" y="130" class="service-text" text-anchor="middle">Custom Registry App</text>
+                                <text x="785" y="145" class="service-text" text-anchor="middle">(on Cloud Run)</text>
+                                <text x="785" y="180" class="service-title" text-anchor="middle">Cost Management</text>
+                                <text x="785" y="210" class="service-text" text-anchor="middle">Cloud Billing API</text>
+                            </g>
+
+                             <!-- Company Project Area -->
+                            <rect x="20" y="300" width="1160" height="280" rx="10" fill="#f0f9ff" stroke="#7dd3fc" stroke-width="1.5"/>
+                            <text x="600" y="330" class="area-title" text-anchor="middle">ISOLATED COMPANY PROJECTS (x200)</text>
+                             <g>
+                                <rect x="45" y="360" width="250" height="200" rx="5" fill="#e0f2fe"/>
+                                <text x="170" y="380" class="service-title" text-anchor="middle">Isolation</text>
+                                <text x="170" y="410" class="service-text" text-anchor="middle">GCP Project</text>
+                                <text x="170" y="430" class="service-text" text-anchor="middle">VPC Network</text>
+                            </g>
+                             <g>
+                                <rect x="315" y="360" width="250" height="200" rx="5" fill="#e0f2fe"/>
+                                <text x="440" y="380" class="service-title" text-anchor="middle">Agent Hosting</text>
+                                <text x="440" y="410" class="service-text" text-anchor="middle">Cloud Run</text>
+                            </g>
+                             <g>
+                                <rect x="585" y="360" width="250" height="200" rx="5" fill="#e0f2fe"/>
+                                <text x="710" y="380" class="service-title" text-anchor="middle">Data & Context</text>
+                                <text x="710" y="410" class="service-text" text-anchor="middle">Cloud Storage</text>
+                                <text x="710" y="430" class="service-text" text-anchor="middle">Cloud SQL / Spanner</text>
+                                <text x="710" y="450" class="service-text" text-anchor="middle">Vertex AI Vector Search</text>
+                            </g>
+                            <g>
+                                <rect x="855" y="360" width="250" height="200" rx="5" fill="#e0f2fe"/>
+                                <text x="980" y="380" class="service-title" text-anchor="middle">DevOps</text>
+                                <text x="980" y="410" class="service-text" text-anchor="middle">Cloud Build</text>
+                                <text x="980" y="430" class="service-text" text-anchor="middle">Artifact Registry</text>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            `
+        },
+        { // Slide 6: Inside the Central Platform
+            title: "Inside the Central Platform",
+            content: `
+                <p class="text-xl mb-8 text-center max-w-3xl mx-auto">The central platform provides the governance and shared tools for our entire AI ecosystem. This is our "Agent Command Center."</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="p-6 rounded-lg bg-slate-200/60 text-center"><i data-lucide="codesandbox" class="w-10 h-10 mx-auto text-slate-600 mb-3"></i><h4 class="font-bold text-lg">Unified Development</h4><p class="text-sm text-slate-600 mt-1">Supports both code-first (ADK) and no-code (Agent Designer) paths.</p></div>
+                    <div class="p-6 rounded-lg bg-slate-200/60 text-center"><i data-lucide="layout-grid" class="w-10 h-10 mx-auto text-slate-600 mb-3"></i><h4 class="font-bold text-lg">Agent Registry & Gallery</h4><p class="text-sm text-slate-600 mt-1">A central inventory and 'app store' for discovering and managing all agents.</p></div>
+                    <div class="p-6 rounded-lg bg-slate-200/60 text-center"><i data-lucide="shield-check" class="w-10 h-10 mx-auto text-slate-600 mb-3"></i><h4 class="font-bold text-lg">Secure API Gateway</h4><p class="text-sm text-slate-600 mt-1">A single, secure entry point (Apigee X) for all internal and external agent traffic.</p></div>
+                    <div class="p-6 rounded-lg bg-slate-200/60 text-center"><i data-lucide="server-cog" class="w-10 h-10 mx-auto text-slate-600 mb-3"></i><h4 class="font-bold text-lg">Shared Services</h4><p class="text-sm text-slate-600 mt-1">Manages identity, access, costs, and provides governed access to AI models.</p></div>
+                </div>
+            `
+        },
+        { // Slide 7: Company Environments
+            title: "Inside a Company's Private Space",
+            content: `
+                <p class="text-xl mb-8 text-center max-w-3xl mx-auto">For developers building custom, code-first agents, each company gets its own private sandbox on Google Cloud for full control and security.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-lg bg-blue-100/60 text-center"><i data-lucide="folder-kanban" class="w-10 h-10 mx-auto text-blue-600 mb-3"></i><h4 class="font-bold text-lg text-blue-900">A Dedicated GCP Project</h4><p class="text-sm text-blue-700 mt-1">Guarantees data and tools stay completely separate from everyone else's.</p></div>
+                    <div class="p-6 rounded-lg bg-blue-100/60 text-center"><i data-lucide="rocket" class="w-10 h-10 mx-auto text-blue-600 mb-3"></i><h4 class="font-bold text-lg text-blue-900">Agent Hosting on Cloud Run</h4><p class="text-sm text-blue-700 mt-1">A modern, serverless way to run AI tools that scales automatically.</p></div>
+                    <div class="p-6 rounded-lg bg-blue-100/60 text-center"><i data-lucide="database" class="w-10 h-10 mx-auto text-blue-600 mb-3"></i><h4 class="font-bold text-lg text-blue-900">Private Data & Context</h4><p class="text-sm text-blue-700 mt-1">Each company securely connects its own data for smarter, context-aware AI.</p></div>
+                </div>
+            `
+        },
+        { // Slide 8: Operational Model
+            title: "Building & Using Agents: Multiple Paths to Success",
+            content: `
+                <div class="flex justify-around items-start h-full text-center">
+                    <div class="p-4 w-1/2">
+                        <h3 class="text-2xl font-bold mb-4">How Agents Are BUILT</h3>
+                        <div class="flex flex-col gap-4">
+                            <div class="p-4 rounded-lg bg-slate-200/60"><i data-lucide="code-2" class="w-8 h-8 mx-auto text-slate-600 mb-2"></i><h4 class="font-bold">Code-First Path</h4><p class="text-sm">For developers building custom solutions.</p></div>
+                            <div class="p-4 rounded-lg bg-slate-200/60"><i data-lucide="mouse-pointer-click" class="w-8 h-8 mx-auto text-slate-600 mb-2"></i><h4 class="font-bold">No-Code Path</h4><p class="text-sm">For business users using the Agent Designer.</p></div>
+                        </div>
+                    </div>
+                    <div class="p-4 w-1/2">
+                        <h3 class="text-2xl font-bold mb-4">How Agents Are USED</h3>
+                        <div class="flex flex-col gap-4">
+                            <div class="p-4 rounded-lg bg-blue-100/60"><i data-lucide="plug-zap" class="w-8 h-8 mx-auto text-blue-600 mb-2"></i><h4 class="font-bold text-blue-900">In Custom Products</h4><p class="text-sm text-blue-800">Integrated via a secure API.</p></div>
+                             <div class="p-4 rounded-lg bg-blue-100/60"><i data-lucide="layout-template" class="w-8 h-8 mx-auto text-blue-600 mb-2"></i><h4 class="font-bold text-blue-900">In AgentSpace</h4><p class="text-sm text-blue-800">Used directly within the platform UI.</p></div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        { // Slide 9: Developer Experience
+            title: "Path 1: For Developers (Code-First)",
+            content: `
+                <div class="max-w-3xl mx-auto">
+                    <ol class="relative border-l border-slate-300 space-y-10">
+                        <li class="ml-10">
+                            <span class="absolute flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full -left-5 ring-4 ring-white"><i data-lucide="code-2" class="w-5 h-5 text-blue-600"></i></span>
+                            <h3 class="font-bold text-lg">Build & Containerize</h3>
+                            <p class="text-base text-slate-600">Developers build agents in their private space using standard tools and package them as containers.</p>
+                        </li>
+                         <li class="ml-10">
+                            <span class="absolute flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full -left-5 ring-4 ring-white"><i data-lucide="rocket" class="w-5 h-5 text-blue-600"></i></span>
+                            <h3 class="font-bold text-lg">Deploy to Cloud Run</h3>
+                            <p class="text-base text-slate-600">The container is deployed to Cloud Run for scalable, serverless hosting.</p>
+                        </li>
+                        <li class="ml-10">
+                            <span class="absolute flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full -left-5 ring-4 ring-white"><i data-lucide="send" class="w-5 h-5 text-blue-600"></i></span>
+                            <h3 class="font-bold text-lg">Publish to Gallery</h3>
+                            <p class="text-base text-slate-600">They publish the agent's details to the central Agent Gallery for others to discover.</p>
+                        </li>
+                        <li class="ml-10">
+                            <span class="absolute flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full -left-5 ring-4 ring-white"><i data-lucide="award" class="w-5 h-5 text-blue-600"></i></span>
+                            <h3 class="font-bold text-lg">Certify (Optional)</h3>
+                            <p class="text-base text-slate-600">Agents can be submitted for a "Visma Certified" badge to verify quality and security.</p>
+                        </li>
+                    </ol>
+                </div>
+            `
+        },
+         { // Slide 10: Business User Experience
+            title: "Path 2: For Business Users (No-Code)",
+            content: `
+                 <div class="max-w-3xl mx-auto">
+                    <ol class="relative border-l border-slate-300 space-y-10">
+                        <li class="ml-10">
+                            <span class="absolute flex items-center justify-center w-10 h-10 bg-slate-200 rounded-full -left-5 ring-4 ring-white"><i data-lucide="mouse-pointer-click" class="w-5 h-5 text-slate-700"></i></span>
+                            <h3 class="font-bold text-lg">Open Agent Designer</h3>
+                            <p class="text-base text-slate-600">A business user opens the Agent Designer within the AgentSpace platform.</p>
+                        </li>
+                         <li class="ml-10">
+                            <span class="absolute flex items-center justify-center w-10 h-10 bg-slate-200 rounded-full -left-5 ring-4 ring-white"><i data-lucide="drafting-compass" class="w-5 h-5 text-slate-700"></i></span>
+                            <h3 class="font-bold text-lg">Assemble Agent</h3>
+                            <p class="text-base text-slate-600">They use a visual, no-code interface to assemble an agent, connecting data and defining its purpose.</p>
+                        </li>
+                        <li class="ml-10">
+                            <span class="absolute flex items-center justify-center w-10 h-10 bg-slate-200 rounded-full -left-5 ring-4 ring-white"><i data-lucide="send" class="w-5 h-5 text-slate-700"></i></span>
+                            <h3 class="font-bold text-lg">Publish to Gallery</h3>
+                            <p class="text-base text-slate-600">When ready, they publish their agent directly to the Agent Gallery for others to use.</p>
+                        </li>
+                    </ol>
+                </div>
+            `
+        },
+        { // Slide 11: Consumer Experience
+            title: "Distributing & Using Agents: Two Powerful Options",
+            content: `
+                 <p class="text-xl mb-6 text-center">Once an agent is in our central registry, we have two primary channels for companies to discover and use them.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                    <div class="p-6 bg-blue-100/60 rounded-lg">
+                        <h3 class="text-xl font-bold !mt-0 flex items-center"><i data-lucide="layout-dashboard" class="w-7 h-7 mr-3 text-blue-700"></i>Option 1: Visma's Self-Service Portal</h3>
+                        <p class="mt-2">We can enhance our existing integration portal to pull agents from the registry and automate deployment into a company's project. This provides a rich, familiar experience for custom integrations.</p>
+                    </div>
+                    <div class="p-6 bg-blue-100/60 rounded-lg">
+                        <h3 class="text-xl font-bold !mt-0 flex items-center"><i data-lucide="layout-template" class="w-7 h-7 mr-3 text-blue-700"></i>Option 2: AgentSpace Gallery</h3>
+                        <p class="mt-2">For a more out-of-the-box experience, users can consume agents directly within the native AgentSpace UI, without needing any custom development.</p>
+                    </div>
+                 </div>
+            `
+        },
+        { // Slide 12: Driving Business Value
+            title: "Unlocking Business Value with Reusable Agents",
+            content: `
+                <p class="text-xl mb-8 text-center max-w-4xl mx-auto">This platform's value comes from building and sharing agents that solve real problems. Here are some examples of what's possible:</p>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-bold flex items-center"><i data-lucide="users" class="w-6 h-6 mr-3 text-slate-700"></i>Augmentation: Making Our Teams Smarter</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="p-3 bg-slate-200/50 rounded-md"><h4 class="font-semibold text-slate-800">Customer Support:</h4><p class="text-sm text-slate-600">A "support agent copilot" that assists staff during live calls and chats, or acts as a first-line chatbot.</p></div>
+                            <div class="p-3 bg-slate-200/50 rounded-md"><h4 class="font-semibold text-slate-800">Sales:</h4><p class="text-sm text-slate-600">A "deal-desk" agent that gives salespeople instant access to customer history and product info.</p></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold flex items-center"><i data-lucide="fast-forward" class="w-6 h-6 mr-3 text-slate-700"></i>Automation: Executing Repetitive Tasks</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="p-3 bg-slate-200/50 rounded-md"><h4 class="font-semibold text-slate-800">Customer Support:</h4><p class="text-sm text-slate-600">An agent that automatically categorizes, prioritizes, and routes incoming support tickets.</p></div>
+                            <div class="p-3 bg-slate-200/50 rounded-md"><h4 class="font-semibold text-slate-800">Marketing:</h4><p class="text-sm text-slate-600">An agent that auto-generates personalized marketing copy for different customer segments.</p></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold flex items-center"><i data-lucide="bot" class="w-6 h-6 mr-3 text-slate-700"></i>Autonomous Agents: Working Independently</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div class="p-3 bg-slate-200/50 rounded-md"><h4 class="font-semibold text-slate-800">Sales:</h4><p class="text-sm text-slate-600">An agent that pulls leads from HubSpot, enriches them with web search data, and creates initial offers.</p></div>
+                            <div class="p-3 bg-slate-200/50 rounded-md"><h4 class="font-semibold text-slate-800">Marketing:</h4><p class="text-sm text-slate-600">As code is pushed to version control, an agent automatically generates and publishes a LinkedIn post.</p></div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        { // Slide 13: Context & Digital Twins
+            title: "The Ultimate Goal: AI Connected to Business Data",
+            content: `
+                <p class="text-xl mb-8 text-center max-w-3xl mx-auto">This platform is the foundation. The real value is unlocked when these agents connect to live business data using standardized protocols and self-service tools.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <div class="p-6 rounded-lg bg-slate-200/60 text-center"><i data-lucide="help-circle" class="w-10 h-10 mx-auto text-slate-600 mb-3"></i><h4 class="font-bold text-lg">Query Information</h4><p class="text-sm text-slate-600 mt-1">Ask questions like, "What's the status of Project X?"</p></div>
+                    <div class="p-6 rounded-lg bg-slate-200/60 text-center"><i data-lucide="check-square" class="w-10 h-10 mx-auto text-slate-600 mb-3"></i><h4 class="font-bold text-lg">Perform Actions</h4><p class="text-sm text-slate-600 mt-1">Give commands like, "Create a follow-up task in the CRM."</p></div>
+                    <div class="p-6 rounded-lg bg-slate-200/60 text-center"><i data-lucide="brain-circuit" class="w-10 h-10 mx-auto text-slate-600 mb-3"></i><h4 class="font-bold text-lg">Act with Context</h4><p class="text-sm text-slate-600 mt-1">Make AI truly useful with relevant, up-to-the-minute data.</p></div>
+                </div>
+            `
+        },
+         { // Slide 14: Hosting & Security
+            title: "Rock-Solid Hosting & Security",
+            content: `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
+                    <div class="p-6 bg-slate-200/60 rounded-lg">
+                        <h3 class="text-2xl font-bold !mt-0 flex items-center"><i data-lucide="cloud" class="w-8 h-8 mr-3 text-slate-700"></i>Secure Hosting</h3>
+                        <p class="mt-4 text-lg">Code-first agents run on <strong>Cloud Run</strong> in isolated company projects. No-code agents are securely managed within the central AgentSpace environment. Both are fully governed.</p>
+                    </div>
+                    <div class="p-6 bg-blue-100/60 rounded-lg">
+                        <h3 class="text-2xl font-bold !mt-0 flex items-center"><i data-lucide="shield-check" class="w-8 h-8 mr-3 text-blue-700"></i>Secure Access</h3>
+                        <p class="mt-4 text-lg">No agent is ever exposed directly. Access is always controlled by <strong>Google Apigee X</strong>, our secure front door for all API traffic.</p>
+                    </div>
+                </div>
+            `
+        },
+        { // Slide 15: Strengths & Weaknesses
+            title: "Strengths & Internal Challenges",
+            content: `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <div>
+                        <h3 class="flex items-center text-xl font-bold text-emerald-700 !mt-0"><i data-lucide="thumbs-up" class="w-6 h-6 mr-3"></i>Strengths (Internal Advantages)</h3>
+                        <div class="mt-4 space-y-4">
+                            <div class="p-3 bg-slate-200/50 rounded-md">
+                                <h4 class="font-semibold text-slate-800">Security & Isolation by Design</h4>
+                                <p class="text-sm text-slate-600">Dedicated projects and a central API gateway provide maximum security.</p>
+                            </div>
+                            <div class="p-3 bg-slate-200/50 rounded-md">
+                                <h4 class="font-semibold text-slate-800">Scalability & Developer Autonomy</h4>
+                                <p class="text-sm text-slate-600">Serverless tech scales automatically, while developers can use any tool they want.</p>
+                            </div>
+                            <div class="p-3 bg-slate-200/50 rounded-md">
+                                <h4 class="font-semibold text-slate-800">Governance & Fosters Reusability</h4>
+                                <p class="text-sm text-slate-600">The agent gallery prevents duplicated work and encourages collaboration.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div>
+                        <h3 class="flex items-center text-xl font-bold text-rose-700 !mt-0"><i data-lucide="alert-triangle" class="w-6 h-6 mr-3"></i>Challenges (Internal Weaknesses)</h3>
+                        <div class="mt-4 space-y-4">
+                            <div class="p-3 bg-slate-200/50 rounded-md">
+                                <h4 class="font-semibold text-slate-800">High Operational Overhead</h4>
+                                <p class="text-sm text-slate-600">Success depends heavily on a skilled and well-resourced central platform team.</p>
+                            </div>
+                            <div class="p-3 bg-slate-200/50 rounded-md">
+                                <h4 class="font-semibold text-slate-800">Complexity of Adoption</h4>
+                                <p class="text-sm text-slate-600">Requires significant investment in training, evangelism, and change management.</p>
+                            </div>
+                            <div class="p-3 bg-slate-200/50 rounded-md">
+                                <h4 class="font-semibold text-slate-800">Integration Friction</h4>
+                                <p class="text-sm text-slate-600">Connecting to hundreds of diverse and legacy systems could be a major hurdle.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+        { // Slide 17: Impact
+            title: "The Potential Impact",
+            content: `
+                 <p class="text-xl mb-8 text-center max-w-4xl mx-auto">If we get this right, it won't just be a new platform—it could change how we work at Visma, creating a real hub for AI innovation.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    <div class="p-6 rounded-lg bg-slate-200/60 flex items-center gap-4"><i data-lucide="copy-plus" class="w-10 h-10 text-slate-600 flex-shrink-0"></i><div><h4 class="font-bold text-lg">"Build once, use many" culture</h4></div></div>
+                    <div class="p-6 rounded-lg bg-slate-200/60 flex items-center gap-4"><i data-lucide="zap" class="w-10 h-10 text-slate-600 flex-shrink-0"></i><div><h4 class="font-bold text-lg">Increased work efficiency</h4></div></div>
+                    <div class="p-6 rounded-lg bg-slate-200/60 flex items-center gap-4"><i data-lucide="recycle" class="w-10 h-10 text-slate-600 flex-shrink-0"></i><div><h4 class="font-bold text-lg">Stop reinventing the wheel</h4></div></div>
+                    <div class="p-6 rounded-lg bg-slate-200/60 flex items-center gap-4"><i data-lucide="trending-up" class="w-10 h-10 text-slate-600 flex-shrink-0"></i><div><h4 class="font-bold text-lg">Accelerated innovation</h4></div></div>
+                </div>
+            `
+        }
+
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const slidesContainer = document.getElementById('slides-container');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        let currentSlide = 0;
+
+        function buildSlides() {
+            slideData.forEach((slide, index) => {
+                const slideEl = document.createElement('div');
+                slideEl.className = 'slide absolute top-0 left-0 w-full h-full items-center justify-center';
+                if (index === 0) slideEl.classList.add('active');
+
+                let innerHTML = '';
+                // Check for a full page slide flag
+                if (slide.isFullPage) {
+                    innerHTML = slide.content;
+                } else {
+                    innerHTML = '<div class="slide-content prose-slides">';
+                    if(slide.title) {
+                        innerHTML += `<h2 class="!text-3xl !mb-10 text-slate-800 font-bold tracking-tight text-center">${slide.title}</h2>`;
+                    }
+                    innerHTML += slide.content;
+                    innerHTML += '</div>';
+                }
+                slideEl.innerHTML = innerHTML;
+                slidesContainer.appendChild(slideEl);
+            });
+        }
+
+        buildSlides();
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            slideCounter.textContent = `${index + 1} / ${slides.length}`;
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === slides.length - 1;
+            lucide.createIcons();
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        // Keyboard navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextBtn.click();
+            } else if (e.key === 'ArrowLeft') {
+                prevBtn.click();
+            }
+        });
+
+        showSlide(currentSlide);
+    });
+
+    </script>
+</body>
+</html>
