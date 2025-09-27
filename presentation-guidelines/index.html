@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation Guidelines</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e53e3e;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #e53e3e;
+            border-radius: 4px;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .nav-link:hover { text-decoration: underline; }
+        .slide-template {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .slide-template h3 {
+            color: #e53e3e;
+            margin-top: 0;
+        }
+        .best-practices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .practice-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #28a745;
+        }
+        .example-links {
+            background: #fff3cd;
+            padding: 20px;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .example-links h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .example-links a {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #0066cc;
+            border: 1px solid #ddd;
+        }
+        .example-links a:hover {
+            background: #f8f9fa;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="../" class="nav-link">← Back to Specifications</a>
+
+    <div class="header">
+        <h1>Presentation Guidelines</h1>
+        <p>Standards for creating effective presentations at Visma</p>
+    </div>
+
+    <div class="section">
+        <h2>📋 Template Structure</h2>
+        <p>Every presentation should follow this basic structure:</p>
+
+        <div class="slide-template">
+            <h3>Slide 1: Title & Objectives</h3>
+            <ul>
+                <li>Clear, descriptive title</li>
+                <li>Presenter name and role</li>
+                <li>Date and audience</li>
+                <li>Key objectives listed</li>
+            </ul>
+        </div>
+
+        <div class="slide-template">
+            <h3>Slide 2: Problem Statement</h3>
+            <ul>
+                <li>What problem are we solving?</li>
+                <li>Why is this important?</li>
+                <li>Impact on business/users</li>
+                <li>Current state vs desired state</li>
+            </ul>
+        </div>
+
+        <div class="slide-template">
+            <h3>Slide 3: Proposed Solution</h3>
+            <ul>
+                <li>High-level solution overview</li>
+                <li>Key benefits</li>
+                <li>Success metrics</li>
+                <li>Implementation timeline</li>
+            </ul>
+        </div>
+
+        <div class="slide-template">
+            <h3>Slide 4: Next Steps & Q&A</h3>
+            <ul>
+                <li>Clear action items</li>
+                <li>Timeline for implementation</li>
+                <li>Open floor for questions</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>💡 Best Practices</h2>
+        <div class="best-practices">
+            <div class="practice-card">
+                <h4>📊 Keep slides visual</h4>
+                <p>Use minimal text with supporting visuals</p>
+            </div>
+            <div class="practice-card">
+                <h4>🎨 Consistent branding</h4>
+                <p>Use consistent colors and fonts throughout</p>
+            </div>
+            <div class="practice-card">
+                <h4>⏱️ Practice timing</h4>
+                <p>Aim for 15-20 minutes + Q&A</p>
+            </div>
+            <div class="practice-card">
+                <h4>📝 Clear call-to-action</h4>
+                <p>Include next steps and action items</p>
+            </div>
+            <div class="practice-card">
+                <h4>💬 End with Q&A</h4>
+                <p>Always allow time for questions</p>
+            </div>
+            <div class="practice-card">
+                <h4>📱 Mobile-friendly</h4>
+                <p>Ensure readability if sharing digitally</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="example-links">
+        <h3>🎯 Example Presentations</h3>
+        <a href="example-presentation.html">
+            <strong>Sample Presentation Template</strong><br>
+            <small>Interactive HTML template following these guidelines</small>
+        </a>
+        <a href="presentations/visma-federated-ai-platform.html">
+            <strong>Visma's Federated AI Platform</strong><br>
+            <small>Real presentation example about AI platform architecture</small>
+        </a>
+    </div>
+
+    <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
+        <p>Presentation Guidelines | Team: Communications</p>
+    </footer>
+</body>
+</html>

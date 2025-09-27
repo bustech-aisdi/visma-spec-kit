@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AISDI Development Guidelines</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #0066cc;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #0066cc;
+            border-radius: 4px;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .nav-link:hover { text-decoration: underline; }
+        code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border-left: 4px solid #0066cc;
+        }
+        .checklist {
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .checklist h4 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .do { color: #28a745; }
+        .dont { color: #dc3545; }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .badge.do { background: #d4edda; color: #155724; }
+        .badge.dont { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <a href="../" class="nav-link">← Back to Specifications</a>
+
+    <div class="header">
+        <h1>Development Guidelines - KNOBO Code Standards</h1>
+        <p><strong>Version:</strong> 1.1 | <strong>Last Updated:</strong> 2025-01-27</p>
+        <p><strong>Scope:</strong> Next.js Web Applications & Node.js Functions</p>
+    </div>
+
+    <div class="section">
+        <h2>📖 Core Principles</h2>
+        <h3>1. Feature-First Architecture</h3>
+        <ul>
+            <li>Organize code by business domain/feature, not by technical layer</li>
+            <li>Each feature owns its own types, actions, components, and utilities</li>
+            <li>Shared utilities only for truly generic, reusable code</li>
+        </ul>
+
+        <h3>2. Explicit Dependencies</h3>
+        <ul>
+            <li>Use dependency injection over hard-coded implementations</li>
+            <li>Abstract external services behind interfaces</li>
+            <li>Make dependencies swappable and modular</li>
+        </ul>
+
+        <h3>3. Fail Fast, Fail Clear</h3>
+        <ul>
+            <li>Use comprehensive error handling with typed results</li>
+            <li>Provide actionable error messages</li>
+            <li>Log errors with sufficient context for debugging</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🤖 AI Assistant Guidelines</h2>
+        <p><strong>CRITICAL:</strong> Before writing any new code, AI assistants MUST follow this discovery process to prevent duplication and leverage existing code.</p>
+
+        <h3>Code Reuse Priorities</h3>
+        <p><strong>MANDATORY ORDER</strong> - Check these locations before creating new code:</p>
+        <ol>
+            <li><code>src/shared/</code> - Generic utilities, hooks, constants</li>
+            <li><code>src/features/*/</code> - Feature-specific types, components, services</li>
+            <li><code>src/lib/</code> - Infrastructure services (auth, database, external APIs)</li>
+            <li><code>src/components/ui/</code> - Base UI components</li>
+        </ol>
+
+        <h3>Before Creating New Code</h3>
+        <p><strong>ASK THESE QUESTIONS:</strong></p>
+        <ul>
+            <li><span class="badge do">✅</span> "Does a similar type/interface already exist that I can extend?"</li>
+            <li><span class="badge do">✅</span> "Is there an existing utility function that does something similar?"</li>
+            <li><span class="badge do">✅</span> "Can I reuse an existing component and just modify props?"</li>
+            <li><span class="badge do">✅</span> "Is there already a hook that handles similar state/logic?"</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🏗️ Project Structure</h2>
+        <h3>Next.js Web Applications</h3>
+        <pre><code>src/
+├── app/                    # Next.js App Router pages
+├── features/              # Business domain modules
+│   └── {feature-name}/
+│       ├── actions.ts     # Server actions
+│       ├── types/         # Feature-specific types
+│       ├── hooks/         # Feature-specific hooks
+│       └── utils/         # Feature-specific utilities
+├── components/            # UI components organized by feature
+│   ├── ui/               # Generic UI components
+│   └── {feature-name}/   # Feature-specific components
+├── lib/                  # Infrastructure & shared services
+└── shared/               # Truly generic utilities</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>📋 Code Quality Standards</h2>
+        <h3>File Size Limits</h3>
+        <ul>
+            <li><strong>Maximum file size:</strong> 400 lines</li>
+            <li><strong>Maximum function length:</strong> 20 lines</li>
+            <li><strong>Maximum function parameters:</strong> 5 parameters</li>
+        </ul>
+
+        <h3>Naming Conventions</h3>
+        <pre><code>// ✅ Clear, descriptive names
+const getUserById = (id: string) => { /* ... */ };
+const isValidEmail = (email: string) => boolean;
+
+// ❌ Unclear abbreviations
+const getUsrById = (id: string) => { /* ... */ };
+const chkEmail = (email: string) => boolean;</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>⚛️ Frontend Development</h2>
+        <h3>Component Architecture</h3>
+        <p><strong>STRICT RULE: Components must be &lt;400 lines</strong></p>
+
+        <pre><code>// ✅ GOOD: Small, focused component
+export function CompanyCard({ company, onSelect }: CompanyCardProps) {
+  return (
+    &lt;Card&gt;
+      &lt;CardContent&gt;
+        &lt;h3&gt;{company.name}&lt;/h3&gt;
+        &lt;p&gt;{company.industry}&lt;/p&gt;
+      &lt;/CardContent&gt;
+    &lt;/Card&gt;
+  );
+}</code></pre>
+
+        <h3>React Hooks Pattern</h3>
+        <p><strong>ALWAYS use our shared useAsyncOperation hook:</strong></p>
+        <pre><code>import { useAsyncOperation } from '@/shared/hooks/use-async-operation';
+
+export function CompanySearch() {
+  const { isLoading, error, execute: searchCompanies } = useAsyncOperation&lt;Company[]&gt;();
+  // Implementation...
+}</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>🔧 Backend Development</h2>
+        <h3>Server Actions Pattern</h3>
+        <pre><code>'use server';
+
+export async function createCompanyProfile(formData: FormData): Promise&lt;ActionResult&lt;CompanyProfile&gt;&gt; {
+  try {
+    const validation = validateCompanyData(data);
+    if (!validation.success) {
+      return { success: false, error: validation.error };
+    }
+
+    const profile = await companyRepository.create(data);
+    revalidatePath('/company-profiles');
+
+    return { success: true, data: profile };
+  } catch (error) {
+    return { success: false, error: 'Failed to create company profile' };
+  }
+}</code></pre>
+    </div>
+
+    <div class="section">
+        <h2>🛡️ Error Handling & Resilience</h2>
+        <h3>ActionResult Pattern</h3>
+        <pre><code>export type ActionResult&lt;T&gt; = {
+  success: true;
+  data: T;
+} | {
+  success: false;
+  error: string;
+};</code></pre>
+    </div>
+
+    <div class="checklist">
+        <h2>✅ Implementation Checklist</h2>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <h4>Architecture</h4>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li>☐ Feature is self-contained in its own folder</li>
+                    <li>☐ Dependencies are injected, not hard-coded</li>
+                    <li>☐ Error handling uses ActionResult pattern</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Code Quality</h4>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li>☐ File is under 400 lines</li>
+                    <li>☐ Functions are under 20 lines</li>
+                    <li>☐ Clear, descriptive naming</li>
+                    <li>☐ Type safety (no `any` types)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
+        <p>Development Guidelines | Team: KNOBO | <a href="README.md">View Full Guidelines (Markdown)</a></p>
+        <script>document.getElementById('date').textContent = new Date().toLocaleDateString();</script>
+    </footer>
+</body>
+</html>
